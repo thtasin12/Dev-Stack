@@ -1,9 +1,9 @@
-import React from 'react'
+import Navbar from "./components/Navbar"
 
 const App = () => {
   return (
-    <div>
-      Hello World!
+    <div className="min-h-screen bg-white text-gray-800">
+      <Navbar></Navbar>
     </div>
   )
 }

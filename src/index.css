@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --background-image-brand-gradient: linear-gradient(90deg, #f97316, #ec4899, #8b5cf6);
+}
+
+body {
+  background-color: #ffffff;
+  color: #1f2937;
+}
