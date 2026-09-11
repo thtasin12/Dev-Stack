@@ -14,17 +14,17 @@ const App = () => {
   const [stack, setStack] = useState<Technology[]>([])
 
   useEffect(() => {
-    fetch("/technologies.json")
-      .then((res) => res.json())
-      .then((data: Technology[]) => {
-        setTechnologies(data)
-        setLoading(false)
-      })
-      .catch(() => {
-        toast.error("Failed to load technologies.")
-        setLoading(false)
-      })
-  }, [])
+  fetch(`${import.meta.env.BASE_URL}technologies.json`)
+    .then((res) => res.json())
+    .then((data: Technology[]) => {
+      setTechnologies(data)
+      setLoading(false)
+    })
+    .catch(() => {
+      toast.error("Failed to load technologies.")
+      setLoading(false)
+    })
+}, [])
 
   const addToStack = (tech: Technology) => {
     if (stack.some((item) => item.id === tech.id)) {
