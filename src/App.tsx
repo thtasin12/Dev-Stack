@@ -13,9 +13,16 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [stack, setStack] = useState<Technology[]>([])
 
-  useEffect(() => {
-  fetch(`${import.meta.env.BASE_URL}technologies.json`)
-    .then((res) => res.json())
+useEffect(() => {
+  const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`
+
+  fetch(`${baseUrl}technologies.json`)
+    .then((res) => {
+      if (!res.ok) throw new Error("Network response was not ok")
+      return res.json()
+    })
     .then((data: Technology[]) => {
       setTechnologies(data)
       setLoading(false)
