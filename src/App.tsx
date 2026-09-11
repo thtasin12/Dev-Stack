@@ -13,25 +13,18 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [stack, setStack] = useState<Technology[]>([])
 
-useEffect(() => {
-  const baseUrl = import.meta.env.BASE_URL.endsWith("/")
-    ? import.meta.env.BASE_URL
-    : `${import.meta.env.BASE_URL}/`
-
-  fetch(`${baseUrl}technologies.json`)
-    .then((res) => {
-      if (!res.ok) throw new Error("Network response was not ok")
-      return res.json()
-    })
-    .then((data: Technology[]) => {
-      setTechnologies(data)
-      setLoading(false)
-    })
-    .catch(() => {
-      toast.error("Failed to load technologies.")
-      setLoading(false)
-    })
-}, [])
+  useEffect(() => {
+    fetch("/technologies.json")
+      .then((res) => res.json())
+      .then((data: Technology[]) => {
+        setTechnologies(data)
+        setLoading(false)
+      })
+      .catch(() => {
+        toast.error("Failed to load technologies.")
+        setLoading(false)
+      })
+  }, [])
 
   const addToStack = (tech: Technology) => {
     if (stack.some((item) => item.id === tech.id)) {
