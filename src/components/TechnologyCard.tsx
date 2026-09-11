@@ -67,7 +67,7 @@ const TechnologyCard: React.FC<TechnologyCardProps> = ({
         <button
           onClick={() => onAdd(tech)}
           disabled={isAdded}
-          className={`w-full py-3 rounded-xl font-medium text-sm transition-all ${
+          className={`w-full py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${
             isAdded
               ? "bg-gray-100 text-gray-400 cursor-not-allowed"
               : "bg-[#080d1a] hover:bg-slate-800 text-white shadow-sm"

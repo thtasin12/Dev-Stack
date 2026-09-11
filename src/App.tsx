@@ -2,8 +2,10 @@ import { useState, useEffect } from "react"
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
 import TechnologyCard from "./components/TechnologyCard"
+import StackPanel from "./components/StackPanel"
 import type { Technology } from "./types"
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css" // 
 
 const App = () => {
   const [technologies, setTechnologies] = useState<Technology[]>([])
@@ -19,23 +21,34 @@ const App = () => {
       })
       .catch(() => {
         toast.error("Failed to load technologies.")
-        setLoading(false);
+        setLoading(false)
       })
   }, [])
 
   const addToStack = (tech: Technology) => {
     if (stack.some((item) => item.id === tech.id)) {
-      toast.warning(`${tech.name} is already in your stack!`);
-      return;
+      toast.warning(`${tech.name} is already in your stack!`)
+      return
     }
-    setStack([...stack, tech]);
-    toast.success(`${tech.name} added to your stack!`);
-  };
+    setStack([...stack, tech])
+    toast.success(`${tech.name} added to your stack!`)
+  }
+
+  const removeFromStack = (id: number) => {
+    const removed = stack.find((item) => item.id === id)
+    setStack(stack.filter((item) => item.id !== id))
+    if (removed) toast.info(`${removed.name} removed from stack`)
+  }
+
+  const removeAll = () => {
+    setStack([])
+    toast.info("Stack cleared")
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      <Navbar></Navbar>
-      <Hero></Hero>
+      <Navbar />
+      <Hero />
 
       <main id="technologies" className="max-w-7xl mx-auto px-4 py-12">
         <h2 className="text-3xl md:text-4xl font-bold text-left mb-2 text-slate-900">
@@ -50,9 +63,7 @@ const App = () => {
         </p>
 
         {loading ? (
-          <div
-            className="flex flex-col items-center py20 justify-center"
-          >
+          <div className="flex flex-col items-center py-20 justify-center">
             <div className="w-12 h-12 border-4 border-t-transparent rounded-full border-pink-500 animate-spin"></div>
             <p className="mt-4 text-gray-500"> Loading...</p>
           </div>
@@ -68,9 +79,20 @@ const App = () => {
                 />
               ))}
             </div>
+
+            <div className="lg:col-span-1">
+              <div className="lg:sticky lg:top-24">
+                <StackPanel
+                  stack={stack}
+                  onRemove={removeFromStack}
+                  onRemoveAll={removeAll}
+                />
+              </div>
+            </div>
           </div>
         )}
       </main>
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   )
 }
